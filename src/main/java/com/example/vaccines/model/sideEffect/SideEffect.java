@@ -13,6 +13,5 @@ public class SideEffect {
     private Long id;
     private String shortDescription;
     private String longDescription;
-    private String priority;
 
 }
