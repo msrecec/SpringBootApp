@@ -50,6 +50,22 @@ public class SideEffectRepositoryImpl implements SideEffectRepository{
     }
 
     @Override
+    public Optional<SideEffect> update(SideEffect sideEffect) {
+        int executed = jdbc.update("UPDATE side_effect SET " +
+                        "short_description = ?, " +
+                        "long_description = ?, " +
+                        "frequency = ?, " +
+                        "vaccine_id = ? " +
+                        "WHERE short_description = ?");
+
+        if(executed > 0) {
+            return Optional.of(sideEffect);
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public Optional<SideEffect> findByShortDescription(String shortDescription) {
         try {
             return Optional.ofNullable(
@@ -76,7 +92,9 @@ public class SideEffectRepositoryImpl implements SideEffectRepository{
         return new SideEffect(
                 rs.getLong("id"),
                 rs.getString("short_description"),
-                rs.getString("long_description")
+                rs.getString("long_description"),
+                rs.getDouble("frequency"),
+                rs.getLong("vaccine_id")
         );
     }
 
@@ -86,6 +104,7 @@ public class SideEffectRepositoryImpl implements SideEffectRepository{
 
         values.put("short_description", sideEffect.getShortDescription());
         values.put("long_description", sideEffect.getLongDescription());
+        values.put("frequency", sideEffect.getFrequency());
 
         return inserter.executeAndReturnKey(values).longValue();
     }

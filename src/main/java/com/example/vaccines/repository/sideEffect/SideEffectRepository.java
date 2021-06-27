@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface SideEffectRepository {
     List<SideEffect> findAll();
     Optional<SideEffect> save(SideEffect sideEffect);
+    Optional<SideEffect> update(SideEffect sideEffect);
     Optional<SideEffect> findByShortDescription(String shortDescription);
     List<SideEffect> findByLongDescription(String longDescription);
 }
